@@ -1,0 +1,12 @@
+.nav {
+  font-size: 30px;
+
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding-bottom: 40px;
+}
+
+.navActive {
+  color: rgb(3, 3, 170);
+}
