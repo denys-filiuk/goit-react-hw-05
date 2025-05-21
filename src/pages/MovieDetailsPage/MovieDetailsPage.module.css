@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  gap: 20px;
+}
+
+.poster {
+  width: 250px;
+  height: auto;
+}
+
+.textBlock {
+  display: block;
+}
