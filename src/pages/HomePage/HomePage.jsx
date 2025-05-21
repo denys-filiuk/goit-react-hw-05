@@ -12,16 +12,20 @@ export default function HomePage() {
   };
 
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(url, options)
       .then((response) => setMovies(response.data.results))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(setLoading(false));
   }, []);
 
   return (
     <div>
+      {loading && <p>Loading trending films</p>}
       <b>Trending today</b>
       <ul>
         {movies.map((movie) => (
