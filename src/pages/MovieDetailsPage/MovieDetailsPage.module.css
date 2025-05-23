@@ -11,3 +11,11 @@
 .textBlock {
   display: block;
 }
+
+.list {
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  gap: 8px;
+}
