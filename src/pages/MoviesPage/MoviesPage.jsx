@@ -39,8 +39,13 @@ export default function MoviesPage() {
   };
 
   return (
-    <div className={css.container}>
-      <input type="text" value={query} onChange={changeSearchQuery} />
+    <div>
+      <input
+        type="text"
+        value={query}
+        className={css.input}
+        onChange={changeSearchQuery}
+      />
       <button type="button" onClick={handleSearch}>
         Search
       </button>

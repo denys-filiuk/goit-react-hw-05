@@ -17,7 +17,7 @@ export default function HomePage() {
   return (
     <div>
       {loading && <p>Loading trending films</p>}
-      <b>Trending today</b>
+      <h2>Trending today</h2>
       <ul>
         {movies.map((movie) => (
           <li key={movie.id}>

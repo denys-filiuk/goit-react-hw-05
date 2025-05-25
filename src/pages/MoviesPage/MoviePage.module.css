@@ -1,4 +1,4 @@
-.container {
-  display: flex;
-  gap: 12px;
+.input {
+  height: 28px;
+  margin-right: 12px;
 }
