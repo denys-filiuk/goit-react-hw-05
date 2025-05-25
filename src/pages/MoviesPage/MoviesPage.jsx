@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import css from "./MoviePage.module.css";
 import fetchSearchMovies from "../../api/fetchSearchMovies";
 
 export default function MoviesPage() {
-  const [movie, setMovie] = useState([]);
+  const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -28,7 +28,7 @@ export default function MoviesPage() {
     setLoading(true);
     fetchSearchMovies(query)
       .then((data) => {
-        setMovie(data.results || []);
+        setMovies(data.results || []);
       })
       .catch((error) => {
         console.error("Error fetching movies:", error);
@@ -51,9 +51,11 @@ export default function MoviesPage() {
       </button>
       {loading && <p>Loading movies...</p>}
       <ul>
-        {movie.map((m) => (
-          <li key={m.id}>
-            {m.title} ({m.release_date?.slice(0, 4)})
+        {movies.map((movie) => (
+          <li key={movie.id}>
+            <Link to={`/movies/${movie.id}`}>
+              {movie.title} ({movie.release_date?.slice(0, 4)})
+            </Link>
           </li>
         ))}
       </ul>
