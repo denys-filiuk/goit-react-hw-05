@@ -1,12 +1,22 @@
 import { useEffect, useState } from "react";
 import fetchMovieDetails from "../../api/fetchMovieDetails";
-import { NavLink, useParams, Outlet } from "react-router-dom";
+import {
+  NavLink,
+  Link,
+  useParams,
+  Outlet,
+  useLocation,
+} from "react-router-dom";
 import css from "./MovieDetailsPage.module.css";
+import { useRef } from "react";
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const location = useLocation();
+  const backLinkRef = useRef(location.state);
 
   useEffect(() => {
     setLoading(true);
@@ -26,6 +36,7 @@ export default function MovieDetailsPage() {
 
   return (
     <>
+      <Link to={backLinkRef.current}>Go back</Link>
       <div className={css.container}>
         <img
           className={css.poster}

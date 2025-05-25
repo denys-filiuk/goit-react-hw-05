@@ -1,28 +1,30 @@
-import { useState } from "react";
-import { useSearchParams, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import css from "./MoviePage.module.css";
 import fetchSearchMovies from "../../api/fetchSearchMovies";
 
 export default function MoviesPage() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query") ?? "";
 
-  const changeSearchQuery = (e) => {
-    const newQuery = e.target.value;
-    const nextSearchParams = new URLSearchParams(searchParams);
-
-    if (newQuery !== "") {
-      nextSearchParams.set("query", newQuery);
-    } else {
-      nextSearchParams.delete("query");
-    }
-    setSearchParams(nextSearchParams);
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
   };
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (!inputValue.trim()) return;
+
+    setSearchParams({ query: inputValue.trim() });
+    setInputValue("");
+  };
+
+  useEffect(() => {
     if (!query) return;
 
     setLoading(true);
@@ -36,24 +38,27 @@ export default function MoviesPage() {
       .finally(() => {
         setLoading(false);
       });
-  };
+  }, [query]);
 
   return (
     <div>
-      <input
-        type="text"
-        value={query}
-        className={css.input}
-        onChange={changeSearchQuery}
-      />
-      <button type="button" onClick={handleSearch}>
-        Search
-      </button>
+      <form onSubmit={handleSearch}>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          className={css.input}
+          placeholder="Search movie"
+        />
+        <button type="submit">Search</button>
+      </form>
+
       {loading && <p>Loading movies...</p>}
+
       <ul>
         {movies.map((movie) => (
           <li key={movie.id}>
-            <Link to={`/movies/${movie.id}`}>
+            <Link to={`/movies/${movie.id}`} state={location}>
               {movie.title} ({movie.release_date?.slice(0, 4)})
             </Link>
           </li>
